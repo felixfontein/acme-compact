@@ -11,10 +11,11 @@ should be manageable.
 
 **PLEASE READ THE SOURCE CODE! YOU MUST TRUST IT WITH YOUR PRIVATE KEYS!**
 
-The code is based on acme-tiny by Daniel Roesler, which can be found at
-https://github.com/diafygi/acme-tiny. I used a Python 3 adjusted version by
-Collin Anderson as a base (available at https://github.com/collinanderson/acme-tiny
-as branch py3).
+The code is based on acme-tiny by [Daniel Roesler](https://github.com/diafygi/),
+which can be found at [GitHub](https://github.com/diafygi/acme-tiny). I used a
+Python 3 adjusted version by [Collin Anderson](https://github.com/collinanderson/)
+as a base (available [here](https://github.com/collinanderson/acme-tiny/tree/py3)
+as branch `py3`).
 
 The main reason why I created this version is that it is more modular; in
 particular, it allows to run this script on another machine than the webserver!
@@ -28,4 +29,4 @@ why I started a new project instead of simply forking (and starting a Pull
 Request for) the original project.
 
 This code should work with Python 2 (untested) and Python 3, and requires OpenSSL's
-command line tool openssl in the path.
+command line tool `openssl` in the path.
