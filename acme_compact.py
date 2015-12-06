@@ -111,20 +111,25 @@ if __name__ == "__main__":
                 take too long.
 
                 ===Example Usage: Creating Letsencrypt account key, private key for certificate and CSR===
-                python roles/letsencrypt/code/acme_compact.py gen-account-key --account-key /path/to/account.key
-                python roles/letsencrypt/code/acme_compact.py gen-key --key /path/to/domain.key
-                python roles/letsencrypt/code/acme_compact.py gen-csr --key /path/to/domain.key --csr /path/to/domain.csr --domains example.com,www.example.com
+                python acme_compact.py gen-account-key --account-key /path/to/account.key
+                python acme_compact.py gen-key --key /path/to/domain.key
+                python acme_compact.py gen-csr --key /path/to/domain.key --csr /path/to/domain.csr --domains example.com,www.example.com
                 ===================
                 Note that the email address does not have to be specified.
 
                 ===Example Usage: Creating certifiate from CSR on server===
-                python roles/letsencrypt/code/acme_compact.py get-certificate --account-key /path/to/account.key --email mail@example.com --csr /path/to/domain.csr --acme-dir /usr/share/nginx/html/.well-known/acme-challenge/ > /path/to/signed.crt 2>> /var/log/acme_compact.log
+                python acme_compact.py get-certificate --account-key /path/to/account.key --email mail@example.com --csr /path/to/domain.csr --acme-dir /usr/share/nginx/html/.well-known/acme-challenge/ --cert /path/to/signed.crt 2>> /var/log/acme_compact.log
                 ===================
 
                 ===Example Usage: Creating certifiate from CSR from another machine===
-                python roles/letsencrypt/code/acme_compact.py get-certificate-part-1 --account-key /path/to/account.key --email mail@example.com --csr /path/to/domain.csr --statefile /path/to/state.json --acme-dir /tmp/acme-challenge/
+                python acme_compact.py get-certificate-part-1 --account-key /path/to/account.key --email mail@example.com --csr /path/to/domain.csr --statefile /path/to/state.json --acme-dir /tmp/acme-challenge/ 2>> /var/log/acme_compact.log
                 ... copy files from /tmp/acme-challenge/ into /usr/share/nginx/html/.well-known/acme-challenge/ on the web server ...
-                python roles/letsencrypt/code/acme_compact.py get-certificate-part-2 --csr /path/to/domain.csr --statefile /path/to/state.json > /path/to/signed.crt 2>> /var/log/acme_compact.log
+                python acme_compact.py get-certificate-part-2 --csr /path/to/domain.csr --statefile /path/to/state.json --cert /path/to/signed.crt 2>> /var/log/acme_compact.log
+                ===================
+
+                ===Example Usage: Combining signed certificate with intermediate certificate===
+                python acme_compact.py get-intermediate --cert /path/to/domain-intermediate.crt
+                cat /path/to/signed.crt /path/to/domain-intermediate.crt > /path/to/signed-with-intermediate.crt
                 ===================
                 """)
         )
