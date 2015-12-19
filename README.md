@@ -28,5 +28,5 @@ This modularization comes at a cost: it increases the code size a bit. That's
 why I started a new project instead of simply forking (and starting a Pull
 Request for) the original project.
 
-This code should work with Python 2 (untested) and Python 3, and requires OpenSSL's
+This code should work with Python 2 and Python 3, and requires OpenSSL's
 command line tool `openssl` in the path.
