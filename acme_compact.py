@@ -156,7 +156,7 @@ if __name__ == "__main__":
                 'command': _gen_cert_key,
             },
             'gen-csr': {
-                'help': 'Generates a certificate signing request (CSR).',
+                'help': 'Generates a certificate signing request (CSR). Under *nix, use /dev/stdin after --key to provide key via stdin.',
                 'requires': ["domains", "key", "csr"],
                 'optional': [],
                 'command': _gen_csr,

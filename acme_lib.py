@@ -66,6 +66,13 @@ def _get_wellknown_path(domain, token, folder_for_domain):
 # # Low level functions
 
 
+def read_stdin():
+    if sys.version_info < (3, 0):
+        return sys.stdin.read()
+    else:
+        return sys.stdin.buffer.read()
+
+
 def write_file(filename, content):
     """Write the contents (string) into the file, encoded with UTF-8."""
     with open(filename, "wb") as f:
@@ -94,7 +101,11 @@ subjectAltName = {0}
 """
     write_file(config_filename, template.format(','.join(['DNS:{0}'.format(domain) for domain in domains])))
     # Generate CSR
-    return _run_openssl(['req', '-new', '-sha256', '-key', key_filename, '-subj', '/', '-config', config_filename]).decode('utf-8')
+    if key_filename == '/dev/stdin':
+        stdin = read_stdin()
+        return _run_openssl(['req', '-new', '-sha256', '-key', '/dev/stdin', '-subj', '/', '-config', config_filename], input=stdin).decode('utf-8')
+    else:
+        return _run_openssl(['req', '-new', '-sha256', '-key', key_filename, '-subj', '/', '-config', config_filename]).decode('utf-8')
 
 
 def get_csr_as_text(csr_filename):
