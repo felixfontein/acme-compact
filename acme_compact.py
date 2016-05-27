@@ -70,7 +70,7 @@ def _get_certificate(account_key, csr, acme_dir, CA, cert, email):
             acme_lib.write_file(cert, result)
             sys.stderr.write("Stored certificate at '{0}'.\n".format(cert))
     finally:
-        acme_lib.remove_challenges(state)
+        acme_lib.remove_challenges(state, acme_dir)
 
 
 def _get_certificate_part1(statefile, account_key, csr, acme_dir, CA, email):
