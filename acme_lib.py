@@ -100,7 +100,7 @@ class ECC(Algorithm):
     def extract_point(self, pub_hex):
         if len(pub_hex) != 64:
             raise ValueError("Key error: public key has incorrect length")
-        return pub_hex[:self.bitlength//8], pub_hex[self.bitlength//8:]
+        return pub_hex[:self.bitlength // 8], pub_hex[self.bitlength // 8:]
 
 
 _ALGORITHMS = {
@@ -203,7 +203,7 @@ def parse_account_key(account_key):
         }
     else:
         pub_data = re.search(
-            r"pub:\s*\n\s+04:([a-f0-9\:\s]+?)\nASN1 OID: (\S+)\nNIST CURVE: (\S+)", out, re.MULTILINE|re.DOTALL)
+            r"pub:\s*\n\s+04:([a-f0-9\:\s]+?)\nASN1 OID: (\S+)\nNIST CURVE: (\S+)", out, re.MULTILINE | re.DOTALL)
         if pub_data is None:
             raise ValueError("Invalid or incompatible ECC key.")
         pub_hex = binascii.unhexlify(re.sub(r"(\s|:)", "", pub_data.group(1)))
@@ -396,7 +396,6 @@ def retrieve_certificate(csr, header, CA, account_key_type, account_key):
 
 def download_certificate(url):
     """Download a certificate (as a file) from the CA server."""
-    import ssl
     try:
         resp = urlopen(url)
         if resp.getcode() != 200:
