@@ -188,11 +188,11 @@ def parse_account_key(account_key):
     out = _run_openssl([account_key_type, "-in", account_key, "-noout", "-text"]).decode('utf8')
     if account_key_type == "rsa":
         pub_hex, pub_exp = re.search(r"modulus:\n\s+00:([a-f0-9\:\s]+?)\npublicExponent: ([0-9]+)", out, re.MULTILINE | re.DOTALL).groups()
-        pub_mod = binascii.unhexlify(re.sub(r"(\s|:)", "", pub_hex))
+        pub_mod = binascii.unhexlify(re.sub(r"(\s|:)", "", pub_hex).encode('utf-8'))
         pub_mod64 = _b64(pub_mod)
         pub_exp = "{0:x}".format(int(pub_exp))
         pub_exp = "0{0}".format(pub_exp) if len(pub_exp) % 2 else pub_exp
-        pub_exp64 = _b64(binascii.unhexlify(pub_exp))
+        pub_exp64 = _b64(binascii.unhexlify(pub_exp).encode('utf-8'))
         header = {
             "alg": "RS256",
             "jwk": {
@@ -206,7 +206,7 @@ def parse_account_key(account_key):
             r"pub:\s*\n\s+04:([a-f0-9\:\s]+?)\nASN1 OID: (\S+)\nNIST CURVE: (\S+)", out, re.MULTILINE | re.DOTALL)
         if pub_data is None:
             raise ValueError("Invalid or incompatible ECC key.")
-        pub_hex = binascii.unhexlify(re.sub(r"(\s|:)", "", pub_data.group(1)))
+        pub_hex = binascii.unhexlify(re.sub(r"(\s|:)", "", pub_data.group(1)).encode('utf-8'))
         curve = pub_data.group(3).lower()
         algorithm = _get_algorithm(curve)
         x, y = algorithm.extract_point(pub_hex)
