@@ -276,9 +276,15 @@ def register_account(header, CA, account_key_type, account_key, email_address=No
     Return True if the account was created and False if it already exists.
     Raises an exception in case of errors.
     """
+    argreement = ca_agreement
+    try:
+        resp = urlopen(agreement_url)
+        argreement = resp.url
+    except IOError as e:
+        sys.stderr.write("Retrieving agreement failed: {0}\n".format(e.message))
     data = {
         "resource": "new-reg",
-        "agreement": ca_agreement,
+        "agreement": argreement,
     }
     contacts = []
     if email_address is not None:
