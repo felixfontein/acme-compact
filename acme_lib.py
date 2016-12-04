@@ -31,6 +31,7 @@ default_ca = "https://acme-v01.api.letsencrypt.org"
 default_intermediate_url = "https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem"
 default_root_url = "https://letsencrypt.org/certs/isrgrootx1.pem"
 ca_agreement = "https://letsencrypt.org/documents/LE-SA-v1.1.1-August-1-2016.pdf"
+ca_agreement_redirect_pattern = '{}/terms'
 
 # #####################################################################################################
 # # Helper functions
@@ -278,7 +279,7 @@ def register_account(header, CA, account_key_type, account_key, email_address=No
     """
     argreement = ca_agreement
     try:
-        resp = urlopen(agreement_url)
+        resp = urlopen(ca_agreement_redirect_pattern.format(CA))
         argreement = resp.url
     except IOError as e:
         sys.stderr.write("Retrieving agreement failed: {0}\n".format(e.message))
