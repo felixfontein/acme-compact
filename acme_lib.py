@@ -252,7 +252,7 @@ def _send_signed_request(url, payload, header, CA, account_key_type, account_key
         resp = urlopen(url, data.encode('utf8'))
         return resp.getcode(), resp.read()
     except IOError as e:
-        return e.code, e.read()
+        return getattr(e, "code", None), getattr(e, "read", e.__str__)()
 
 
 def parse_csr(csr):
