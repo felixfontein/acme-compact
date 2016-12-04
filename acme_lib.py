@@ -30,7 +30,7 @@ staging_ca = "https://acme-staging.api.letsencrypt.org"
 default_ca = "https://acme-v01.api.letsencrypt.org"
 default_intermediate_url = "https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem"
 default_root_url = "https://letsencrypt.org/certs/isrgrootx1.pem"
-ca_agreement = "https://letsencrypt.org/documents/LE-SA-v1.0.1-July-27-2015.pdf"
+ca_agreement = "https://letsencrypt.org/documents/LE-SA-v1.1.1-August-1-2016.pdf"
 
 # #####################################################################################################
 # # Helper functions
