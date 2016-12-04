@@ -28,6 +28,7 @@ except ImportError:  # Python 2
 
 staging_ca = "https://acme-staging.api.letsencrypt.org"
 default_ca = "https://acme-v01.api.letsencrypt.org"
+default_ca_staging = "https://acme-staging.api.letsencrypt.org"
 default_intermediate_url = "https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem"
 default_root_url = "https://letsencrypt.org/certs/isrgrootx1.pem"
 ca_agreement = "https://letsencrypt.org/documents/LE-SA-v1.1.1-August-1-2016.pdf"
