@@ -41,7 +41,7 @@ user_agent = "acme-compact"
 
 
 def _b64(b):
-    """helper function base64 encode for jose spec."""
+    """Helper function base64 encode for jose spec."""
     return base64.urlsafe_b64encode(b).decode('utf8').replace("=", "")
 
 
@@ -79,35 +79,49 @@ def _request(url, content_type=None):
 
 
 class Algorithm(object):
+    """Abstracts an algorithm (RSA or ECC)."""
+
     def __init__(self, name):
+        """Initialize algorithm object."""
         self.name = name
 
     def __not_implemented(self, method):
+        """Helper method to raise not implemented errors."""
         raise Exception("Algorithm {0} does not support {1}!".format(self.name, method))
 
     def create_key(self, key_length):
+        """Create a private key of given length."""
         self.__not_implemented('create_key')
 
 
 class RSA(Algorithm):
+    """Abstracts the RSA algorithm."""
+
     def __init__(self):
+        """Create new RSA algorithm object."""
         super(RSA, self).__init__("RSA")
 
     def create_key(self, key_length):
+        """Generate RSA key with given key length."""
         return _run_openssl(['genrsa', str(key_length)]).decode('utf-8')
 
 
 class ECC(Algorithm):
+    """Abstracts Elliptic Curve based algorithms."""
+
     def __init__(self, curve, openssl_curve, bitlength):
+        """Create new ECC algorithm object for given JOSE curve name, OpenSSL curve name, and bit length."""
         super(ECC, self).__init__("ECC-{0}".format(curve))
         self.curve = curve
         self.openssl_curve = openssl_curve
         self.bitlength = bitlength
 
     def create_key(self, key_length):
+        """Generate ECC private key for this curve. The key length is ignored."""
         return _run_openssl(['ecparam', '-name', self.openssl_curve, '-genkey', '-noout']).decode('utf-8')
 
     def extract_point(self, pub_hex):
+        """Extract the public point coordinates from the given hexadecimal description."""
         if len(pub_hex) != 64:
             raise ValueError("Key error: public key has incorrect length")
         return pub_hex[:self.bitlength // 8], pub_hex[self.bitlength // 8:]
@@ -133,6 +147,7 @@ def _get_algorithm(algorithm):
 
 
 def read_stdin():
+    """Read data from stdin."""
     if sys.version_info < (3, 0):
         return sys.stdin.read()
     else:
