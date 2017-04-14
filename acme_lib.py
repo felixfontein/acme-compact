@@ -278,7 +278,7 @@ def parse_csr(csr):
     """
     out = get_csr_as_text(csr)
     domains = set([])
-    common_name = re.search(r"Subject:.*? CN=([^\s,;/]+)", out)
+    common_name = re.search(r"Subject:.*? CN\s*=\s*([^\s,;/]+)", out)
     if common_name is not None:
         domains.add(common_name.group(1))
     for subject_alt_names in re.finditer(r"X509v3 Subject Alternative Name: \n +([^\n]+)\n", out, re.MULTILINE | re.DOTALL):
