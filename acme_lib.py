@@ -67,8 +67,11 @@ def _get_wellknown_path(domain, token, folder_for_domain):
     return os.path.join(folder, token)
 
 
-def _request(url):
-    return Request(url, headers={'User-Agent': user_agent})
+def _request(url, content_type=None):
+    headers = {'User-Agent': user_agent}
+    if content_type:
+        headers['Content-Type'] = content_type
+    return Request(url, headers=headers)
 
 
 # #####################################################################################################
@@ -265,7 +268,7 @@ def _send_signed_request(url, payload, header, CA, account_key_type, account_key
         "signature": _b64(out),
     })
     try:
-        resp = urlopen(_request(url), data.encode('utf8'))
+        resp = urlopen(_request(url, 'application/jose+json'), data.encode('utf8'))
         return resp.getcode(), resp.read()
     except IOError as e:
         return getattr(e, "code", None), getattr(e, "read", e.__str__)()
