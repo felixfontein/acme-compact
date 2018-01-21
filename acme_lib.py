@@ -330,7 +330,7 @@ def parse_csr(csr):
     common_name = re.search(r"Subject:.*? CN\s*=\s*([^\s,;/]+)", out)
     if common_name is not None:
         domains.add(common_name.group(1))
-    for subject_alt_names in re.finditer(r"X509v3 Subject Alternative Name: \n +([^\n]+)\n", out, re.MULTILINE | re.DOTALL):
+    for subject_alt_names in re.finditer(r"X509v3 Subject Alternative Name: (?:critical)?\n +([^\n]+)\n", out, re.MULTILINE | re.DOTALL):
         for san in subject_alt_names.group(1).split(", "):
             if san.startswith("DNS:"):
                 domains.add(san[4:])
